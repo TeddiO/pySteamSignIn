@@ -13,14 +13,11 @@ except ImportError as error:
 		- Light framework that will return the 64 bit SteamID if they succesfully log in. 
 		- Has some bottlepy support to ensure the user gets redirected correctly.
 		- Tries to be as friendly as possible. 
-
-
 '''
 
 class SteamSignIn():
 
 	_provider = 'http://steamcommunity.com/openid/login'
-
 
 	def RedirectUser(self, strPostData):
 		if bottle == None:
