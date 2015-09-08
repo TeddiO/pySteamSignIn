@@ -15,7 +15,7 @@ from steamsignin import SteamSignIn
 
 steamLogin = SteamSignIn()
 encodedData = steamLogin.ConstructURL('http://0.0.0.0:8080/processlogin'))
-ForwardClientToSteamPage() #Not a real function, but the next action you'd take
+ForwardClientToSteamPage(encodedData) #Not a real function, but the next action you'd take
 ...
 ```
 
