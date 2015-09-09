@@ -40,7 +40,7 @@ This will just relay the user on your behalf to the Steam site, as such
 
 ```Python
 steamLogin = SteamSignIn()
-steamLogin.RedirectUser(steamLogin.ConstructURL('http://82.39.161.25:8080/processlogin'))
+steamLogin.RedirectUser(steamLogin.ConstructURL('http://0.0.0.0:8080/processlogin'))
 ...
 ```
 
