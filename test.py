@@ -8,7 +8,7 @@ def main():
 
 	if shouldLogin != None:
 		steamLogin = SteamSignIn()
-		steamLogin.RedirectUser(steamLogin.ConstructURL('http://82.39.161.25:8080/processlogin'))
+		steamLogin.RedirectUser(steamLogin.ConstructURL('http://0.0.0.0:8080/processlogin'))
 
 	return 'Click <a href="/?login=true">to log in</a>'
 
