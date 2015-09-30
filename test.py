@@ -6,7 +6,7 @@ def main():
 
 	shouldLogin = request.query.get('login')
 
-	if shouldLogin != None:
+	if shouldLogin not None:
 		steamLogin = SteamSignIn()
 		steamLogin.RedirectUser(steamLogin.ConstructURL('http://0.0.0.0:8080/processlogin'))
 
