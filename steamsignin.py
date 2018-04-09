@@ -10,14 +10,14 @@ except ImportError as error:
 
 '''
 	Steam OpenID 2 Sign in class
-		- Light framework that will return the 64 bit SteamID if they succesfully log in. 
+		- Lite class to help you get steam logins working quickly.
 		- Has some bottlepy support to ensure the user gets redirected correctly.
 		- Tries to be as friendly as possible. 
 '''
 
 class SteamSignIn():
 
-	_provider = 'http://steamcommunity.com/openid/login'
+	_provider = 'https://steamcommunity.com/openid/login'
 
 	def RedirectUser(self, strPostData):
 		if bottle == None:
@@ -79,7 +79,7 @@ class SteamSignIn():
 
 		#is_valid:true is what Steam returns if something is valid. The alternative is is_valid:false which obviously, is false. 
 		if re.search('is_valid:true', reqData.text):
-			matched64ID = re.search('http://steamcommunity.com/openid/id/(\d+)', results['openid.claimed_id'])
+			matched64ID = re.search('https://steamcommunity.com/openid/id/(\d+)', results['openid.claimed_id'])
 			if matched64ID != None or matched64ID.group(1) != None:
 				return matched64ID.group(1)
 			else:

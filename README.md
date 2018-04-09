@@ -1,9 +1,11 @@
 # pySteamSignIn
 A small Python 3 class designed to get Steam OpenID 2 sign-in up and running as quick as possible.
 
-As of this moment in time there's not really any 'decent' openid libraries that give any proper documentation or insight in terms of how to actually use them. Alongside this they're often fairly bloated and problematic. As a result of this pySteamSignIn is a library designed to let you plug in Steam OpenID as quick as possible and let you start returning results immediately. 
+As of this moment in time there's not really any 'decent' Steam Openid libraries that give any proper documentation or insight in terms of how to actually use them. Alongside this they're often fairly bloated and problematic. As a result of this pySteamSignIn is a lite class designed to let you plug in Steam Auth as quick as possible and let you start returning results immediately. 
 
-##Lets quickly get authentication rolling
+**Requires requests to function**
+
+## Lets quickly get authentication rolling
 
 The power behind this is it provides the entire auth process over two (or three, if you're using bottlepy) functions.
 The first function is ConstructURL, which takes a string and returns a string
@@ -33,7 +35,7 @@ returnedSteamID = steamLogin.ValidateResults(dictionaryGoesHere)
 ```
 And that's the general gist of it! At this point the user has been validated by Steam's own servers so the Steam64ID returned is one that can be trusted and you can use it to store information, you can set cookies on the current client and so on. 
 
-###If you use Bottle...
+### If you use Bottle...
 
 An additional helper function has been provided under the guise of RedirectUser.
 This will just relay the user on your behalf to the Steam site, as such 
@@ -44,7 +46,7 @@ steamLogin.RedirectUser(steamLogin.ConstructURL('http://0.0.0.0:8080/processlogi
 ...
 ```
 
-##Finally
+## Finally
 
 Hopefully this helps someone out in terms of getting Steam OpenID and Python working in harmony. There's a few solutions for Flask and Django (which are basically glorified wrappers for python-openid) but both of them can still result in a fair few steps.
 
