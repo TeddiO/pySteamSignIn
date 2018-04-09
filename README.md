@@ -16,12 +16,12 @@ The string to pass is whatever page the user is going to be sent back to as a re
 from steamsignin import SteamSignIn
 
 steamLogin = SteamSignIn()
-encodedData = steamLogin.ConstructURL('http://0.0.0.0:8080/processlogin'))
+encodedData = steamLogin.ConstructURL('https://0.0.0.0:8080/processlogin'))
 ForwardClientToSteamPage(encodedData) #Not a real function, but the next action you'd take
 ...
 ```
 
-At this point you forward the client on with a postRequest to http://steamcommunity.com/openid/login and you'll get thrown a bunch of stuff back. 
+At this point you forward the client on with a postRequest to https://steamcommunity.com/openid/login and you'll get thrown a bunch of stuff back. 
 
 The important thing here is that you get thet GET returned data put into a  dictionary to then pass on to ValidateResults
 
@@ -42,7 +42,7 @@ This will just relay the user on your behalf to the Steam site, as such
 
 ```Python
 steamLogin = SteamSignIn()
-steamLogin.RedirectUser(steamLogin.ConstructURL('http://0.0.0.0:8080/processlogin'))
+steamLogin.RedirectUser(steamLogin.ConstructURL('https://0.0.0.0:8080/processlogin'))
 ...
 ```
 
