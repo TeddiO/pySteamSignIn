@@ -6,9 +6,9 @@ def main():
 
 	shouldLogin = request.query.get('login')
 
-	if shouldLogin not None:
+	if shouldLogin is not None:
 		steamLogin = SteamSignIn()
-		steamLogin.RedirectUser(steamLogin.ConstructURL('http://0.0.0.0:8080/processlogin'))
+		steamLogin.RedirectUser(steamLogin.ConstructURL('http://localhost:8080/processlogin'))
 
 	return 'Click <a href="/?login=true">to log in</a>'
 
@@ -24,4 +24,4 @@ def process():
 	print(steamID)
 
 if __name__ == '__main__':
-    run(host='0.0.0.0', port=8080, debug = True, reloader = False)
+    run(host='localhost', port=8080, debug = True, reloader = False)
