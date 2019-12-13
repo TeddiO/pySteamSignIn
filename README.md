@@ -3,8 +3,6 @@ A small Python 3 class designed to get Steam OpenID 2 sign-in up and running as 
 
 As of this moment in time there's not really any 'decent' Steam Openid libraries that give any proper documentation or insight in terms of how to actually use them. Alongside this they're often fairly bloated and problematic. As a result of this pySteamSignIn is a lite class designed to let you plug in Steam Auth as quick as possible and let you start returning results immediately. 
 
-**Requires requests to function**
-
 ## Lets quickly get authentication rolling
 
 The power behind this is it provides the entire auth process over two (or three, if you're using bottlepy) functions.
@@ -21,7 +19,7 @@ ForwardClientToSteamPage(encodedData) #Not a real function, but the next action 
 ...
 ```
 
-At this point you forward the client on with a postRequest to https://steamcommunity.com/openid/login and you'll get thrown a bunch of stuff back. 
+At this point you forward the client on with a post request to https://steamcommunity.com/openid/login and you'll get thrown a bunch of stuff back. 
 
 The important thing here is that you get thet GET returned data put into a  dictionary to then pass on to ValidateResults
 
