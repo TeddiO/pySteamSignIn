@@ -1,4 +1,4 @@
-import re, logging, os
+import re, logging, os, sys
 import urllib.request
 from urllib.parse import urlencode
 logger = logging.getLogger(name=__name__)
@@ -11,27 +11,36 @@ logger.setLevel(os.getenv("SSI_LOGLEVEL", "WARNING").upper())
 		- Tries to be as friendly as possible. 
 '''
 
-try:
-	import bottle
+if "bottle" in sys.modules:
 	from bottle import response
+else:
+	logging.info("Bottle is not installed. Cannot use friendly RedirectUser helper function.")
 
-except ImportError as error:
-	logging.info("Bottle is not installed! You cannot use RedirectUser()")
+if "flask" in sys.modules:
+	from flask import redirect
+else:
+	logging.info("Flask is not installed. Cannot use friendly RedirectUser helper function.")
 
 
 class SteamSignIn():
 
 	_provider = 'https://steamcommunity.com/openid/login'
 
-	if bottle:
+	if "bottle" in sys.modules:
 		def RedirectUser(self, strPostData):
-
+			logging.info("Invoked the bottlepy RedirectUser!")
 			response.status = 303
 			response.set_header('Location', "{0}?{1}".format(self._provider, strPostData))	
 			response.add_header('Content-Type', 'application/x-www-form-urlencoded')
 			return response
 
-
+	if "flask" in sys.modules:
+		def RedirectUser(self, strPostData):
+			logging.info("Invoked the Flask RedirectUser!")
+			resp = redirect('{0}?{1}'.format(self._provider, strPostData), 303)
+			resp.headers["Content-Type"] = 'application/x-www-form-urlencoded'
+			return resp
+	
 	# This is the basic setup for getting steam to acknowledge our request for OpenID (2).
 	# We specify a responseURL because hey, easy.
 	# Returns a string that is safe to use via a POST.	
