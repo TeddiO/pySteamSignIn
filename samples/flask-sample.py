@@ -3,7 +3,7 @@ import flask
 from flask import Flask, request
 
 # Not ideal, but for the sake of an example
-sys.path.append(os.path.join(os.path.dirname(os.path.dirname(__file__)), "src"))
+sys.path.append(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'src'))
 from steamsignin import SteamSignIn
 
 app = Flask(__name__)
@@ -27,12 +27,12 @@ def process():
 	steamLogin = SteamSignIn()
 	steamID = steamLogin.ValidateResults(returnData)
 
-	print("SteamID returned was: ", steamID)
+	print('SteamID returned was: ', steamID)
 
 	if steamID is not False:
-		return "We logged in successfully!<br />SteamID: {0}".format(steamID)
+		return 'We logged in successfully!<br />SteamID: {0}'.format(steamID)
 	else:
-		return "Failed to log in, bad details?"
+		return 'Failed to log in, bad details?'
 
 	# At this point, redirect the user to a friendly URL.
 

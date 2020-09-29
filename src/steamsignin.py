@@ -1,7 +1,7 @@
 import re, logging, os, sys
 import urllib.request
 from urllib.parse import urlencode
-logger = logging.getLogger(name=__name__)
+logger = logging.getLogger(name =__name__)
 logger.setLevel(os.getenv("SSI_LOGLEVEL", "WARNING").upper())
 
 '''
@@ -11,15 +11,15 @@ logger.setLevel(os.getenv("SSI_LOGLEVEL", "WARNING").upper())
 		- Tries to be as friendly as possible. 
 '''
 
-if "bottle" in sys.modules:
+if 'bottle' in sys.modules:
 	from bottle import response
 else:
-	logging.info("Bottle is not installed. Cannot use friendly RedirectUser helper function.")
+	logging.info('Bottle is not installed. Cannot use friendly RedirectUser helper function.')
 
-if "flask" in sys.modules:
+if 'flask' in sys.modules:
 	from flask import redirect
 else:
-	logging.info("Flask is not installed. Cannot use friendly RedirectUser helper function.")
+	logging.info('Flask is not installed. Cannot use friendly RedirectUser helper function.')
 
 
 class SteamSignIn():
@@ -28,43 +28,43 @@ class SteamSignIn():
 
 	if "bottle" in sys.modules:
 		def RedirectUser(self, strPostData):
-			logging.info("Invoked the bottlepy RedirectUser!")
+			logging.info('Invoked the bottlepy RedirectUser!')
 			response.status = 303
-			response.set_header('Location', "{0}?{1}".format(self._provider, strPostData))	
+			response.set_header('Location', '{0}?{1}'.format(self._provider, strPostData))	
 			response.add_header('Content-Type', 'application/x-www-form-urlencoded')
 			return response
 
 	if "flask" in sys.modules:
 		def RedirectUser(self, strPostData):
-			logging.info("Invoked the Flask RedirectUser!")
+			logging.info('Invoked the Flask RedirectUser!')
 			resp = redirect('{0}?{1}'.format(self._provider, strPostData), 303)
 			resp.headers["Content-Type"] = 'application/x-www-form-urlencoded'
 			return resp
 	
 	# This is the basic setup for getting steam to acknowledge our request for OpenID (2).
-	# We specify a responseURL because hey, easy.
+	# Our responseURL is where we want Steam to send us back to once the user has done something.
 	# Returns a string that is safe to use via a POST.	
 	def ConstructURL(self, responseURL):
 
-		# Ensure the protocol is at least http. You should use https but often test environments don't guarantee this...
-		if responseURL[0:4] != "http":
-			errMessage = "http was not found at the start of the string {0}.".format(responseURL)
+		# Ensure the protocol is at least http (spec requirement). You should use https but often test environments don't guarantee this...
+		if responseURL[0:4] != 'http':
+			errMessage = 'http was not found at the start of the string {0}.'.format(responseURL)
 			logging.critical(errMessage)
 			raise ValueError(errMessage)
 		
-		if responseURL[5] != "s":
-			logging.warning("https isn't being used! Is this intentional?")
+		if responseURL[5] != 's':
+			logging.warning('https isn\'t being used! Is this intentional?')
 
 		authParameters = {
-			"openid.ns":"http://specs.openid.net/auth/2.0",
-			"openid.mode": "checkid_setup",
-			"openid.return_to": responseURL, 
-			"openid.realm": responseURL, 
-			"openid.identity": "http://specs.openid.net/auth/2.0/identifier_select", 
-			"openid.claimed_id": "http://specs.openid.net/auth/2.0/identifier_select"
+			'openid.ns':'http://specs.openid.net/auth/2.0',
+			'openid.mode': 'checkid_setup',
+			'openid.return_to': responseURL, 
+			'openid.realm': responseURL, 
+			'openid.identity': 'http://specs.openid.net/auth/2.0/identifier_select', 
+			'openid.claimed_id': 'http://specs.openid.net/auth/2.0/identifier_select'
 		}
 
-		logging.info("Returning encoded")
+		logging.info('Returning encoded URL.')
 		return urlencode(authParameters)
 
 
@@ -72,8 +72,7 @@ class SteamSignIn():
 	# the GET variables passed on.
 	def ValidateResults(self, results):
 
-		logging.info("Validating results of attempted log-in to Steam.")
-
+		logging.info('Validating results of attempted log-in to Steam.')
 		validationArgs ={
 			'openid.assoc_handle': results['openid.assoc_handle'],
 			'openid.signed': results['openid.signed'],
@@ -92,7 +91,7 @@ class SteamSignIn():
 
 		validationArgs['openid.mode'] = 'check_authentication'
 		parsedArgs = urlencode(validationArgs).encode("utf-8")
-		logging.info("Encoded the validation arguments, prepped to send.")
+		logging.info('Encoded the validation arguments, prepped to send.')
 
 		with urllib.request.urlopen(self._provider, parsedArgs) as requestData:
 			responseData = requestData.read().decode('utf-8')
