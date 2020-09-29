@@ -1,25 +1,25 @@
 import re, logging, os, sys
 import urllib.request
 from urllib.parse import urlencode
-logger = logging.getLogger(name =__name__)
-logger.setLevel(os.getenv("SSI_LOGLEVEL", "WARNING").upper())
+logger = logging.getLogger(__name__)
+logging.basicConfig(level = os.getenv('SSI_LOGLEVEL', 'WARNING').upper())
 
 '''
 	Steam OpenID 2 Sign in class
-		- Lite class to help you get steam logins working quickly.
-		- Has some bottlepy support to ensure the user gets redirected correctly.
+		- Lite class to help you get Steam logins working quickly.
+		- Has helper bottlepy and Flask redirect support
 		- Tries to be as friendly as possible. 
 '''
 
 if 'bottle' in sys.modules:
 	from bottle import response
 else:
-	logging.info('Bottle is not installed. Cannot use friendly RedirectUser helper function.')
+	logger.info('Bottle is not installed. Cannot use friendly RedirectUser helper function.')
 
 if 'flask' in sys.modules:
 	from flask import redirect
 else:
-	logging.info('Flask is not installed. Cannot use friendly RedirectUser helper function.')
+	logger.info('Flask is not installed. Cannot use friendly RedirectUser helper function.')
 
 
 class SteamSignIn():
@@ -28,7 +28,7 @@ class SteamSignIn():
 
 	if "bottle" in sys.modules:
 		def RedirectUser(self, strPostData):
-			logging.info('Invoked the bottlepy RedirectUser!')
+			logger.info('Invoked the bottlepy RedirectUser!')
 			response.status = 303
 			response.set_header('Location', '{0}?{1}'.format(self._provider, strPostData))	
 			response.add_header('Content-Type', 'application/x-www-form-urlencoded')
@@ -36,7 +36,7 @@ class SteamSignIn():
 
 	if "flask" in sys.modules:
 		def RedirectUser(self, strPostData):
-			logging.info('Invoked the Flask RedirectUser!')
+			logger.info('Invoked the Flask RedirectUser!')
 			resp = redirect('{0}?{1}'.format(self._provider, strPostData), 303)
 			resp.headers["Content-Type"] = 'application/x-www-form-urlencoded'
 			return resp
@@ -49,11 +49,11 @@ class SteamSignIn():
 		# Ensure the protocol is at least http (spec requirement). You should use https but often test environments don't guarantee this...
 		if responseURL[0:4] != 'http':
 			errMessage = 'http was not found at the start of the string {0}.'.format(responseURL)
-			logging.critical(errMessage)
+			logger.critical(errMessage)
 			raise ValueError(errMessage)
 		
 		if responseURL[5] != 's':
-			logging.warning('https isn\'t being used! Is this intentional?')
+			logger.warning('https isn\'t being used! Is this intentional?')
 
 		authParameters = {
 			'openid.ns':'http://specs.openid.net/auth/2.0',
@@ -64,7 +64,7 @@ class SteamSignIn():
 			'openid.claimed_id': 'http://specs.openid.net/auth/2.0/identifier_select'
 		}
 
-		logging.info('Returning encoded URL.')
+		logger.info('Returning encoded URL.')
 		return urlencode(authParameters)
 
 
@@ -72,7 +72,7 @@ class SteamSignIn():
 	# the GET variables passed on.
 	def ValidateResults(self, results):
 
-		logging.info('Validating results of attempted log-in to Steam.')
+		logger.info('Validating results of attempted log-in to Steam.')
 		validationArgs ={
 			'openid.assoc_handle': results['openid.assoc_handle'],
 			'openid.signed': results['openid.signed'],
@@ -91,11 +91,11 @@ class SteamSignIn():
 
 		validationArgs['openid.mode'] = 'check_authentication'
 		parsedArgs = urlencode(validationArgs).encode("utf-8")
-		logging.info('Encoded the validation arguments, prepped to send.')
+		logger.info('Encoded the validation arguments, prepped to send.')
 
 		with urllib.request.urlopen(self._provider, parsedArgs) as requestData:
 			responseData = requestData.read().decode('utf-8')
-			logging.info("Sent request to {0}, got back a response.".format(self._provider))
+			logger.info("Sent request to {0}, got back a response.".format(self._provider))
 
 		# is_valid:true is what Steam returns if something is valid. The alternative is is_valid:false which obviously, is false. 
 		if re.search('is_valid:true', responseData):
