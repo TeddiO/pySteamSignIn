@@ -68,8 +68,8 @@ class SteamSignIn():
 		return urlencode(authParameters)
 
 
-	# Takes a dictionary. This should be provided by whatever framework you're using with all 
-	# the GET variables passed on.
+	# Takes a dictionary or a dict-like object. 
+	# This should be provided by whatever framework you're using with all the GET variables passed on.
 	def ValidateResults(self, results):
 
 		logger.info('Validating results of attempted log-in to Steam.')
