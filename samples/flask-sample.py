@@ -27,7 +27,7 @@ def process():
 	steamLogin = SteamSignIn()
 	steamID = steamLogin.ValidateResults(returnData)
 
-	print('SteamID returned was: ', steamID)
+	print('SteamID returned is: ', steamID)
 
 	if steamID is not False:
 		return 'We logged in successfully!<br />SteamID: {0}'.format(steamID)
