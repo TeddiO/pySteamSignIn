@@ -5,7 +5,7 @@ As of this moment in time there's not really any 'decent' Steam Openid libraries
 
 ## Lets quickly get authentication rolling
 
-The power behind this is it provides the entire auth process over two (or three, if you're using bottlepy) functions.
+The power behind this is it provides the entire auth process over two (or three, if you're using bottlepy / Flask) functions.
 The first function is ConstructURL, which takes a string and returns a string
 
 The string to pass is whatever page the user is going to be sent back to as a result of logging in with Steam.
@@ -33,7 +33,7 @@ returnedSteamID = steamLogin.ValidateResults(dictionaryGoesHere)
 ```
 And that's the general gist of it! At this point the user has been validated by Steam's own servers so the Steam64ID returned is one that can be trusted and you can use it to store information, you can set cookies on the current client and so on. 
 
-### If you use Bottle...
+### If you use Bottlepy or Flask...
 
 An additional helper function has been provided under the guise of RedirectUser.
 This will just relay the user on your behalf to the Steam site, as such 
@@ -41,6 +41,7 @@ This will just relay the user on your behalf to the Steam site, as such
 ```Python
 steamLogin = SteamSignIn()
 steamLogin.RedirectUser(steamLogin.ConstructURL('https://0.0.0.0:8080/processlogin'))
+# In the case of Flask, return the above RedirectUser call instead.
 ...
 ```
 
