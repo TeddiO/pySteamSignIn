@@ -49,6 +49,6 @@ steamLogin.RedirectUser(steamLogin.ConstructURL('https://0.0.0.0:8080/processlog
 
 Hopefully this helps someone out in terms of getting Steam OpenID and Python working in harmony. There's a few solutions for Flask and Django (which are basically glorified wrappers for python-openid) but both of them can still result in a fair few steps.
 
-This is based on OpenID 2.0 and **not** OpenID Connect 1.0. I'm not 100% on the various changes required, but it can possibly be used for an understanding behind the statelent OpenID connect functionality as well. 
+This is based on OpenID 2.0 and **not** OpenID Connect 1.0.
 
 
