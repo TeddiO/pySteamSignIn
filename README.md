@@ -51,4 +51,6 @@ Hopefully this helps someone out in terms of getting Steam OpenID and Python wor
 
 This is based on OpenID 2.0 and **not** OpenID Connect 1.0.
 
+If you require a Go version of this library, this is available [here](https://github.com/TeddiO/GoSteamAuth).
+
 
