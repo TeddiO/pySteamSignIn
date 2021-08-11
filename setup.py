@@ -20,6 +20,6 @@ setuptools.setup(
         "License :: OSI Approved :: GNU License",
         "Operating System :: OS Independent",
     ],
-    packages=setuptools.find_packages(),
+    packages=setuptools.find_packages(exclude=('samples')),
     python_requires=">=3.6"
 )
