@@ -3,8 +3,9 @@ import flask
 from flask import Flask, request
 
 # Not ideal, but for the sake of an example
-sys.path.append(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'src'))
-from steamsignin import SteamSignIn
+sys.path.append(os.path.join(os.path.dirname(os.path.dirname(__file__))))
+from pysteamsignin.steamsignin import SteamSignIn
+
 
 app = Flask(__name__)
 

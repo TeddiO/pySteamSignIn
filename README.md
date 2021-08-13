@@ -11,7 +11,7 @@ The first function is ConstructURL, which takes a string and returns a string
 The string to pass is whatever page the user is going to be sent back to as a result of logging in with Steam.
 
 ```Python
-from steamsignin import SteamSignIn
+from pysteamsignin.steamsignin import SteamSignIn
 
 steamLogin = SteamSignIn()
 encodedData = steamLogin.ConstructURL('https://0.0.0.0:8080/processlogin'))
