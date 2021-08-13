@@ -4,7 +4,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="steamSignIn",
+    name="pysteamsignin",
     version="1.0.0",
     author="TeddiO",
     author_email="",
