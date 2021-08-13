@@ -3,6 +3,11 @@ A small Python 3 class designed to get Steam OpenID 2 sign-in up and running as 
 
 As of this moment in time there's not really any 'decent' Steam Openid libraries that give any proper documentation or insight in terms of how to actually use them. Alongside this they're often fairly bloated and problematic. As a result of this pySteamSignIn is a lite class designed to let you plug in Steam Auth as quick as possible and let you start returning results immediately. 
 
+## Installation
+pySteamSignIn is now available on pip!
+
+`pip install steamsignin`
+
 ## Lets quickly get authentication rolling
 
 The power behind this is it provides the entire auth process over two (or three, if you're using bottlepy / Flask) functions.
