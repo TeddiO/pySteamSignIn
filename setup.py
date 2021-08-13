@@ -8,7 +8,7 @@ setuptools.setup(
     version="1.0.0",
     author="TeddiO",
     author_email="",
-    description="OpenID sign in for steam",
+    description="OpenID 2.0 sign in for Steam",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/TeddiO/pySteamSignIn",
