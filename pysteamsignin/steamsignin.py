@@ -56,7 +56,7 @@ class SteamSignIn():
             logger.critical(errMessage)
             raise ValueError(errMessage)
 
-        if responseURL[5] != 's':
+        if responseURL[4] != 's':
             logger.warning('https isn\'t being used! Is this intentional?')
 
         authParameters = {
