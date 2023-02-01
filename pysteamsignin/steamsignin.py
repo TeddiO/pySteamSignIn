@@ -56,7 +56,7 @@ class SteamSignIn():
     if 'fastapi' in sys.modules:
         def RedirectUser(self, strPostData):
             response = RedirectResponse(
-                url=f"{_provider}?{url}",
+                url=f"{self._provider}?{url}",
                 status_code=303,
                 headers={"Content-Type": "application/x-www-form-urlencoded"},
             )
