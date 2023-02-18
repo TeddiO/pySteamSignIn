@@ -55,6 +55,7 @@ class SteamSignIn():
     
     if 'fastapi' in sys.modules:
         def RedirectUser(self, strPostData):
+            logger.info('Invoked the fastapi RedirectUser!')
             response = RedirectResponse(
                 url=f"{self._provider}?{url}",
                 status_code=303,
