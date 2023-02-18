@@ -57,7 +57,7 @@ class SteamSignIn():
         def RedirectUser(self, strPostData):
             logger.info('Invoked the fastapi RedirectUser!')
             response = RedirectResponse(
-                url=f"{self._provider}?{url}",
+                url=f"{self._provider}?{strPostData}",
                 status_code=303,
                 headers={"Content-Type": "application/x-www-form-urlencoded"},
             )

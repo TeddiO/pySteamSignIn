@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="steamsignin",
-    version="1.0.1",
+    version="1.1.0",
     author="TeddiO",
     author_email="",
     description="OpenID 2.0 sign in for Steam",
