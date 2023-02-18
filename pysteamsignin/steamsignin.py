@@ -27,6 +27,13 @@ else:
     logger.info(
         'Flask is not installed. Cannot use friendly RedirectUser helper function.')
 
+if 'fastapi' in sys.modules:
+    from fastapi import RedirectResponse
+else:
+    logger.info(
+        'fastapi is not installed. Cannot use friendly RedirectUser helper function.'
+    )
+
 
 class SteamSignIn():
     _provider = 'https://steamcommunity.com/openid/login'
@@ -45,6 +52,16 @@ class SteamSignIn():
             resp = redirect(f'{self._provider}?{strPostData}', 303)
             resp.headers["Content-Type"] = 'application/x-www-form-urlencoded'
             return resp
+    
+    if 'fastapi' in sys.modules:
+        def RedirectUser(self, strPostData):
+            logger.info('Invoked the fastapi RedirectUser!')
+            response = RedirectResponse(
+                url=f"{self._provider}?{url}",
+                status_code=303,
+                headers={"Content-Type": "application/x-www-form-urlencoded"},
+            )
+            return response
 
     # This is the basic setup for getting steam to acknowledge our request for OpenID (2).
     # Our responseURL is where we want Steam to send us back to once the user has done something.
