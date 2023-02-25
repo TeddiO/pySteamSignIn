@@ -7,7 +7,6 @@ from fastapi.responses import HTMLResponse
 sys.path.append(os.path.join(os.path.dirname(os.path.dirname(__file__))))
 from pysteamsignin.steamsignin import SteamSignIn
 
-
 app = FastAPI()
 
 @app.get('/')
