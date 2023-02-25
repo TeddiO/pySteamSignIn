@@ -28,7 +28,7 @@ else:
         'Flask is not installed. Cannot use friendly RedirectUser helper function.')
 
 if 'fastapi' in sys.modules:
-    from fastapi import RedirectResponse
+    from fastapi.responses import RedirectResponse
 else:
     logger.info(
         'fastapi is not installed. Cannot use friendly RedirectUser helper function.'
