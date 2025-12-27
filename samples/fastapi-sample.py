@@ -13,7 +13,7 @@ app = FastAPI()
 def main(login = None):
 	if login != None:
 		steamLogin = SteamSignIn()
-		# Flask expects an explicit return on the route.
+		# FastAPI expects an explicit return on the route.
 		return steamLogin.RedirectUser(steamLogin.ConstructURL('http://localhost:8080/processlogin'))
 
 	return HTMLResponse('Click <a href="/?login=true">to log in</a>')

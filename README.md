@@ -1,7 +1,9 @@
 # pySteamSignIn
 A small Python 3 class designed to get Steam OpenID 2 sign-in up and running as quick as possible.
 
-As of this moment in time there's not really any 'decent' Steam Openid libraries that give any proper documentation or insight in terms of how to actually use them. Alongside this they're often fairly bloated and problematic. As a result of this pySteamSignIn is a lite class designed to let you plug in Steam Auth as quick as possible and let you start returning results immediately. 
+There's not really any 'decent' Steam OpenID 2.0 libraries that give any proper documentation or insight in terms of how to actually use them. Alongside this they're often fairly bloated and problematic.
+
+As a result of this pySteamSignIn is designed to let you plug in Steam Auth as quick as possible and let you start returning results immediately.
 
 ## Installation
 pySteamSignIn is now available on pip!
@@ -10,7 +12,7 @@ pySteamSignIn is now available on pip!
 
 ## Lets quickly get authentication rolling
 
-The power behind this is it provides the entire auth process over two (or three, if you're using bottlepy / Flask) functions.
+The power behind this is it provides the entire auth process over two (or three, if you're using bottlepy / Flask / FastAPI) functions.
 The first function is ConstructURL, which takes a string and returns a string
 
 The string to pass is whatever page the user is going to be sent back to as a result of logging in with Steam.
@@ -30,15 +32,14 @@ The important thing here is that you get thet GET returned data put into a  dict
 
 
 ```python
-#Some function where the data has been passed in a dictionary no less
+# Some function where the data has been passed in a dictionary no less
 steamLogin = SteamSignIn()
 returnedSteamID = steamLogin.ValidateResults(dictionaryGoesHere)
-#Perform checks to see if you actually have something that isn't false
+# Perform checks to see if you actually have something that isn't false
 ...
 ```
-And that's the general gist of it! At this point the user has been validated by Steam's own servers so the Steam64ID returned is one that can be trusted and you can use it to store information, you can set cookies on the current client and so on. 
-
-### If you use Bottlepy or Flask...
+And that's the general gist of it! At this point the user has been validated by Steam's own servers so the Steam64ID returned is one that can be trusted.
+### If you use Bottlepy, Flask or FastAPI...
 
 An additional helper function has been provided under the guise of RedirectUser.
 This will just relay the user on your behalf to the Steam site, as such 
@@ -46,7 +47,7 @@ This will just relay the user on your behalf to the Steam site, as such
 ```Python
 steamLogin = SteamSignIn()
 steamLogin.RedirectUser(steamLogin.ConstructURL('https://0.0.0.0:8080/processlogin'))
-# In the case of Flask, return the above RedirectUser call instead.
+# In the case of Flask / FastAPI, return the above RedirectUser call instead.
 ...
 ```
 
@@ -54,7 +55,7 @@ steamLogin.RedirectUser(steamLogin.ConstructURL('https://0.0.0.0:8080/processlog
 
 Hopefully this helps someone out in terms of getting Steam OpenID and Python working in harmony. There's a few solutions for Flask and Django (which are basically glorified wrappers for python-openid) but both of them can still result in a fair few steps.
 
-This is based on OpenID 2.0 and **not** OpenID Connect 1.0.
+This is based on OpenID 2.0 and **not** OpenID Connect / OAuth 2.
 
 If you require a Go version of this library, this is available [here](https://github.com/TeddiO/GoSteamAuth).
 
