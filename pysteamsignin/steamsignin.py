@@ -115,7 +115,7 @@ class SteamSignIn():
         }
 
         # Basically, we split apart one of the args steam sends back only to send it back to them to validate!
-        # We also append check_authentication which tells OpenID 2.0 to actually validate what we send.
+        # We also append check_authentication which is required by the OpenID 2.0 spec to tell Valve to validate what we send.
         signedArgs = results['openid.signed'].split(',')
 
         for item in signedArgs:
