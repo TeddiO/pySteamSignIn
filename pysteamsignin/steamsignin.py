@@ -1,6 +1,5 @@
 import logging
 import os
-import re
 import sys
 import urllib.request
 from urllib.parse import urlencode
@@ -34,6 +33,7 @@ else:
         'fastapi is not installed. Cannot use friendly RedirectUser helper function.'
     )
 
+OPENID_TIMEOUT = int(os.getenv('SSI_OPENID_TIMEOUT') or 15)
 
 class SteamSignIn():
     _provider = 'https://steamcommunity.com/openid/login'
@@ -63,7 +63,7 @@ class SteamSignIn():
             )
             return response
 
-    # This is the basic setup for getting steam to acknowledge our request for OpenID (2).
+    # This is the basic setup for getting steam to acknowledge our request for OpenID 2.0.
     # Our responseURL is where we want Steam to send us back to once the user has done something.
     # Returns a string that is safe to use via a POST.
     def ConstructURL(self, responseURL):
@@ -90,10 +90,23 @@ class SteamSignIn():
 
     # Takes a dictionary or a dict-like object.
     # This should be provided by whatever framework you're using with all the GET variables passed on.
-
     def ValidateResults(self, results):
 
         logger.info('Validating results of attempted log-in to Steam.')
+        required_fields = (
+            'openid.assoc_handle',
+            'openid.signed',
+            'openid.sig',
+            'openid.ns',
+            'openid.claimed_id',
+            'openid.identity',
+        )
+
+        for key in required_fields:
+            value = results.get(key)
+            if not isinstance(value, str) or not value:
+                return False
+
         validationArgs = {
             'openid.assoc_handle': results['openid.assoc_handle'],
             'openid.signed': results['openid.signed'],
@@ -102,30 +115,45 @@ class SteamSignIn():
         }
 
         # Basically, we split apart one of the args steam sends back only to send it back to them to validate!
-        # We also append check_authentication which tells OpenID2 to actually yknow, validate what we send.
+        # We also append check_authentication which is required by the OpenID 2.0 spec to tell Valve to validate what we send.
         signedArgs = results['openid.signed'].split(',')
 
         for item in signedArgs:
             itemArg = f'openid.{item}'
-            if results[itemArg] not in validationArgs:
-                validationArgs[itemArg] = results[itemArg]
+            value = results.get(itemArg)
+
+            if not isinstance(value, str) or not value:
+                return False
+
+            validationArgs[itemArg] = value
 
         validationArgs['openid.mode'] = 'check_authentication'
         parsedArgs = urlencode(validationArgs).encode("utf-8")
         logger.info('Encoded the validation arguments, prepped to send.')
 
-        with urllib.request.urlopen(self._provider, parsedArgs) as requestData:
+        with urllib.request.urlopen(self._provider, parsedArgs, timeout = OPENID_TIMEOUT) as requestData:
             responseData = requestData.read().decode('utf-8')
             logger.info(f"Sent request to {self._provider}, got back a response.")
 
+        fields = {}
+
+        for line in responseData.splitlines():
+            if ':' in line:
+                k, v = line.split(':', 1)
+                fields[k.strip()] = v.strip()
+
         # is_valid:true is what Steam returns if something is valid. The alternative is is_valid:false which obviously, is false.
-        if re.search('is_valid:true', responseData):
-            matched64ID = re.search('https://steamcommunity.com/openid/id/(\d+)', results['openid.claimed_id'])
-            if matched64ID != None or matched64ID.group(1) != None:
-                return matched64ID.group(1)
-            else:
-                # If we somehow fail to get a valid steam64ID, just return false
-                return False
-        else:
-            # Same again here
+        if fields.get('is_valid') != 'true':
             return False
+
+        claimed_id = results.get('openid.claimed_id')
+        identity = results.get('openid.identity')
+
+        if claimed_id != identity:
+            return False
+
+        prefix = 'https://steamcommunity.com/openid/id/'
+        if not claimed_id.startswith(prefix):
+            return False
+
+        return claimed_id[len(prefix):]
