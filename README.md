@@ -57,7 +57,7 @@ Optional helper functions are provided for common web frameworks (Bottle, Flask,
 
 ## Finally
 
-Hopefully this helps someone out in terms of getting Steam OpenID and Python working in harmony. There's a few solutions for Flask and Django (which are basically glorified wrappers for python-openid) but both of them can still result in a fair few steps.
+Hopefully this helps someone get OpenID 2.0 Steam sign-in and Python working together a bit more smoothly. There's a few solutions for Flask and Django (which are basically glorified wrappers for python-openid) but both of them can still result in a fair few steps.
 
 This is based on OpenID 2.0 and **not** OpenID Connect / OAuth 2.
 
