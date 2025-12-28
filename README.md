@@ -51,6 +51,10 @@ steamLogin.RedirectUser(steamLogin.ConstructURL('https://0.0.0.0:8080/processlog
 ...
 ```
 
+## Dependencies
+The core of pySteamSignIn uses only the Python standard library and does not depend on external HTTP clients such as requests.
+Optional helper functions are provided for common web frameworks (Bottle, Flask, FastAPI) and are only enabled if those frameworks are already installed.
+
 ## Finally
 
 Hopefully this helps someone out in terms of getting Steam OpenID and Python working in harmony. There's a few solutions for Flask and Django (which are basically glorified wrappers for python-openid) but both of them can still result in a fair few steps.
