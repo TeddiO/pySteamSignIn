@@ -131,9 +131,13 @@ class SteamSignIn():
         parsedArgs = urlencode(validationArgs).encode("utf-8")
         logger.info('Encoded the validation arguments, prepped to send.')
 
-        with urllib.request.urlopen(self._provider, parsedArgs, timeout = OPENID_TIMEOUT) as requestData:
-            responseData = requestData.read().decode('utf-8')
-            logger.info(f"Sent request to {self._provider}, got back a response.")
+        try:
+            with urllib.request.urlopen(self._provider, parsedArgs, timeout = OPENID_TIMEOUT) as requestData:
+                responseData = requestData.read().decode("utf-8")
+                logger.info(f"Sent request to {self._provider}, got back a response.")
+        except Exception as e:
+            logger.warning(f"Steam OpenID verification failed: {e}")
+            return False
 
         fields = {}
 
