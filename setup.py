@@ -20,6 +20,6 @@ setuptools.setup(
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
         "Operating System :: OS Independent",
     ],
-    packages=setuptools.find_packages(exclude=('samples')),
+    packages=setuptools.find_packages(exclude=('samples', '.github')),
     python_requires=">=3.6"
 )
