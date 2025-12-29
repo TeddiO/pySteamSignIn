@@ -161,3 +161,4 @@ class SteamSignIn():
             return False
 
         return claimed_id[len(prefix):]
+
